@@ -77,6 +77,35 @@
             app:layout_constraintTop_toBottomOf="@+id/movie_details_poster"
             tools:text="Wisecracking mercenary Deadpool battles the evil and powerful Cable and other bad guys to save a boy's life." />
 
+        <LinearLayout
+            android:id="@+id/trailer_tv_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/movieTitleBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_plot_synopsis">
+
+            <TextView
+                android:id="@+id/trailer_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trailers"
+                android:textColor="@color/movieTitle"
+                android:textSize="26sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trailer_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trailer_tv_linearLayout" />
+
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>
