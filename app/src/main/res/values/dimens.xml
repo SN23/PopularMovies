@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="titleLayout">107dp</dimen>
+    <dimen name="movieTitle">35sp</dimen>
+    <dimen name="moviePoster">150dp</dimen>
+    <dimen name="moviePosterHeight">225dp</dimen>
+    <dimen name="moviePosterMarginStart">32dp</dimen>
+    <dimen name="moviePosterMarginTop">24dp</dimen>
+    <dimen name="movieYearMarginStart">32dp</dimen>
+    <dimen name="movieYearMarginTop">24dp</dimen>
+    <dimen name="movieYearTextSize">30sp</dimen>
+    <dimen name="movieRatingMarginTop">10dp</dimen>
+    <dimen name="moviePlotMarginEnd">24dp</dimen>
+    <dimen name="moviePlotMarginStart">32dp</dimen>
+    <dimen name="moviePlotMarginTop">32dp</dimen>
+    <dimen name="moviePlotTextSize">15sp</dimen>
+</resources>
