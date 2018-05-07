@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="20dp">
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/titleLayout"
+            android:background="@color/movieTitleBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/movie_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/movieTitle"
+                android:textSize="@dimen/movieTitle"
+                tools:text="Deadpool 2" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/movie_details_poster"
+            android:layout_width="@dimen/moviePoster"
+            android:layout_height="@dimen/moviePosterHeight"
+            android:layout_marginStart="@dimen/moviePosterMarginStart"
+            android:layout_marginTop="@dimen/moviePosterMarginTop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:src="@drawable/movie_poster" />
+
+        <TextView
+            android:id="@+id/movie_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/movieYearMarginStart"
+            android:layout_marginTop="@dimen/movieYearMarginTop"
+            android:textSize="@dimen/movieYearTextSize"
+            app:layout_constraintStart_toEndOf="@+id/movie_details_poster"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:text="2018" />
+
+
+        <TextView
+            android:id="@+id/movie_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/movieRatingMarginTop"
+            app:layout_constraintStart_toStartOf="@+id/movie_year"
+            app:layout_constraintTop_toBottomOf="@+id/movie_year"
+            tools:text="9/10" />
+
+        <TextView
+            android:id="@+id/movie_plot_synopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/moviePlotMarginEnd"
+            android:layout_marginStart="@dimen/moviePlotMarginStart"
+            android:layout_marginTop="@dimen/moviePlotMarginTop"
+            android:textSize="@dimen/moviePlotTextSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/movie_details_poster"
+            app:layout_constraintTop_toBottomOf="@+id/movie_details_poster"
+            tools:text="Wisecracking mercenary Deadpool battles the evil and powerful Cable and other bad guys to save a boy's life." />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
