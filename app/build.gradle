@@ -16,6 +16,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'TMDB_API_KEY', "\"" + getApiKey() + "\""
+    }
+}
+
+def getApiKey() {
+    Properties props = new Properties()
+    props.load(new FileInputStream(rootProject.file('secret')))
+    return props['TMDB_API_KEY']
 }
 
 dependencies {
