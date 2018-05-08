@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import com.sukhjinder.popularmovies.BuildConfig;
 import com.sukhjinder.popularmovies.adapter.TrailerAdapter;
-import com.sukhjinder.popularmovies.model.Movie;
 import com.sukhjinder.popularmovies.model.Trailer;
 
 import org.json.JSONArray;
@@ -17,8 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -56,7 +53,7 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<Trailer>> {
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
 
             if (inputStream == null) {
                 return null;
@@ -66,7 +63,7 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<Trailer>> {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             }
 
             if (buffer.length() == 0) {
@@ -76,10 +73,6 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<Trailer>> {
             jsonString = buffer.toString();
 
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -106,7 +99,6 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<Trailer>> {
     private ArrayList<Trailer> getTrailerDataFromJSON(String jsonString) throws JSONException {
 
         final ArrayList<Trailer> trailers = new ArrayList<>();
-        final String NAME = "name";
         final String KEY = "key";
         final String RESULTS = "results";
 
@@ -114,16 +106,13 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<Trailer>> {
         JSONArray resultsArray = trailerJson.getJSONArray(RESULTS);
 
         for (int i = 0; i < resultsArray.length(); i++) {
-            String name;
             String key;
 
             JSONObject trailerInfo = resultsArray.getJSONObject(i);
 
-            name = trailerInfo.getString(NAME);
             key = trailerInfo.getString(KEY);
 
             Trailer trailer = new Trailer();
-            trailer.setName(name);
             trailer.setKey(key);
 
             trailers.add(trailer);

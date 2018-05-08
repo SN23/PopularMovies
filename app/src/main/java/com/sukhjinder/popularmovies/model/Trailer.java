@@ -5,11 +5,9 @@ import android.os.Parcelable;
 
 public class Trailer implements Parcelable {
 
-    private String name;
     private String key;
 
     protected Trailer(Parcel in) {
-        name = in.readString();
         key = in.readString();
     }
 
@@ -29,14 +27,6 @@ public class Trailer implements Parcelable {
         }
     };
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getKey() {
         return key;
     }
@@ -53,7 +43,6 @@ public class Trailer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
         parcel.writeString(key);
     }
 }

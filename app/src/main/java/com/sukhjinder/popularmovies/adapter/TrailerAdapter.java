@@ -19,7 +19,6 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
     private ArrayList<Trailer> trailers;
     private static String BASE_URL_YOUTUBE_THUMBNAIL = "https://img.youtube.com/vi/";
-    private static String Base_URL_YOUTUBE = "https://www.youtube.com/watch?v=";
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -58,16 +57,13 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView trailer_thumbnail;
-        private TextView trailer_name;
 
         public ViewHolder(View itemView) {
             super(itemView);
             trailer_thumbnail = itemView.findViewById(R.id.trailer_thumbnail);
-            trailer_name = itemView.findViewById(R.id.trailer_name);
         }
 
         public void bind(final Trailer trailer, final OnItemClickListener listener) {
-            trailer_name.setText(trailer.getName());
             trailer_thumbnail.setAdjustViewBounds(true);
             Picasso.with(itemView.getContext())
                     .load(BASE_URL_YOUTUBE_THUMBNAIL + trailer.getKey() + "/0.jpg")
