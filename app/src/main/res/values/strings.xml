@@ -3,5 +3,7 @@
     <string name="app_name">PopularMovies</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="reviewsTv">Reviews</string>
+    <string name="trailers">Trailers</string>
 
 </resources>
