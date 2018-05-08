@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -51,7 +50,7 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
 
             if (inputStream == null) {
                 return null;
@@ -61,7 +60,7 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             }
 
             if (buffer.length() == 0) {
@@ -70,8 +69,6 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
 
             jsonString = buffer.toString();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -103,7 +100,6 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
         final String ID = "id";
         final String TITLE = "title";
         final String POSTER_PATH = "poster_path";
-        final String BACKDROP_PATH = "backdrop_path";
         final String OVERVIEW = "overview";
         final String RELEASE_DATE = "release_date";
         final String VOTE_AVERAGE = "vote_average";
@@ -115,7 +111,6 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
             int id;
             String title;
             String poster;
-            String backdrop;
             String plotSynopsis;
             String releaseDate;
             double userRating;
@@ -126,7 +121,6 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
             id = movieInfo.getInt(ID);
             title = movieInfo.getString(TITLE);
             poster = movieInfo.getString(POSTER_PATH);
-            backdrop = movieInfo.getString(BACKDROP_PATH);
             plotSynopsis = movieInfo.getString(OVERVIEW);
             releaseDate = movieInfo.getString(RELEASE_DATE);
             userRating = movieInfo.getDouble(VOTE_AVERAGE);
@@ -136,7 +130,6 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
             movie.setId(id);
             movie.setTitle(title);
             movie.setPoster(poster);
-            movie.setBackdrop(backdrop);
             movie.setPlotSynopsis(plotSynopsis);
             movie.setReleaseDate(releaseDate);
             movie.setUserRating(userRating);

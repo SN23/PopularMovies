@@ -8,7 +8,6 @@ public class Movie implements Parcelable {
     private int id;
     private String title;
     private String poster;
-    private String backdrop;
     private String plotSynopsis;
     private String releaseDate;
     private double userRating;
@@ -21,7 +20,6 @@ public class Movie implements Parcelable {
         id = in.readInt();
         title = in.readString();
         poster = in.readString();
-        backdrop = in.readString();
         plotSynopsis = in.readString();
         releaseDate = in.readString();
         userRating = in.readDouble();
@@ -63,14 +61,6 @@ public class Movie implements Parcelable {
         this.poster = poster;
     }
 
-    public String getBackdrop() {
-        return backdrop;
-    }
-
-    public void setBackdrop(String backdrop) {
-        this.backdrop = backdrop;
-    }
-
     public String getPlotSynopsis() {
         return plotSynopsis;
     }
@@ -105,7 +95,6 @@ public class Movie implements Parcelable {
         parcel.writeInt(id);
         parcel.writeString(title);
         parcel.writeString(poster);
-        parcel.writeString(backdrop);
         parcel.writeString(plotSynopsis);
         parcel.writeString(releaseDate);
         parcel.writeDouble(userRating);
