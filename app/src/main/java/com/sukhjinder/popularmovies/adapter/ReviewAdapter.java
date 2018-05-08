@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.sukhjinder.popularmovies.R;
 import com.sukhjinder.popularmovies.model.Review;
-import com.sukhjinder.popularmovies.model.Trailer;
 
 import java.util.ArrayList;
 
@@ -50,7 +48,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView author;
         private TextView content;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
