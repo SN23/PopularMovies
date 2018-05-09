@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageButton;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,14 +33,15 @@ import static android.support.v7.widget.RecyclerView.VERTICAL;
 public class MovieDetails extends AppCompatActivity {
 
     private Movie movie;
-    private static final String BASE_URL_POSTER = "http://image.tmdb.org/t/p/w185/";
+    private static final String BASE_URL_POSTER = "http://image.tmdb.org/t/p/w342/";
+    private static final String BASE_URL_BACKDROP = "http://image.tmdb.org/t/p/w1280/";
     private static String Base_URL_YOUTUBE = "https://www.youtube.com/watch?v=";
 
     private RecyclerView trailerRecyclerView;
     private TrailerAdapter trailerAdapter;
     private ArrayList<Trailer> trailers;
     private RecyclerView reviewRecyclerView;
-    private ImageButton favoriteBtn;
+    private FloatingActionButton favoriteBtn;
 
     private ReviewAdapter reviewAdapter;
     private ArrayList<Review> reviews;
@@ -53,12 +55,13 @@ public class MovieDetails extends AppCompatActivity {
 
         final Context context = this;
         ImageView moviePoster = findViewById(R.id.movie_details_poster);
-        TextView movieTitle = findViewById(R.id.movie_title);
+        ImageView movieBackdrop = findViewById(R.id.backdrop);
         TextView movieYears = findViewById(R.id.movie_year);
         TextView movieRating = findViewById(R.id.movie_rating);
         TextView moviePlotSynopsis = findViewById(R.id.movie_plot_synopsis);
         trailerRecyclerView = findViewById(R.id.trailer_recycler);
         reviewRecyclerView = findViewById(R.id.review_recycler);
+        favoriteBtn = findViewById(R.id.favoriteBtn);
 
         Utils utils = new Utils();
         onlineStatus = utils.isOnline(context);
@@ -89,16 +92,32 @@ public class MovieDetails extends AppCompatActivity {
         reviewApiCall(movieID);
 
 
-        Picasso.with(MovieDetails.this)
+        Picasso.with(context)
                 .load(BASE_URL_POSTER + movie.getPoster())
                 .fit()
                 .centerCrop()
                 .into(moviePoster);
 
-        movieTitle.setText(movie.getTitle());
+        Picasso.with(context)
+                .load(BASE_URL_BACKDROP + movie.getBackdrop())
+                .fit()
+                .centerCrop()
+                .into(movieBackdrop);
+
+        getSupportActionBar().setTitle(movie.getTitle());
         movieYears.setText(movie.getReleaseDate().substring(0, 4));
         movieRating.setText(Double.toString(movie.getUserRating()) + "/10");
         moviePlotSynopsis.setText(movie.getPlotSynopsis());
+
+        favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
+                Intent favMovieIntent = new Intent(context, Favorites.class);
+                favMovieIntent.putExtra("favMovie", movie);
+                context.startActivity(favMovieIntent);
+            }
+        });
     }
 
     private void trailerApiCall(String movieID) {
