@@ -100,6 +100,7 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
         final String ID = "id";
         final String TITLE = "title";
         final String POSTER_PATH = "poster_path";
+        final String BACKDROP_PATH = "backdrop_path";
         final String OVERVIEW = "overview";
         final String RELEASE_DATE = "release_date";
         final String VOTE_AVERAGE = "vote_average";
@@ -111,6 +112,7 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
             int id;
             String title;
             String poster;
+            String backdrop;
             String plotSynopsis;
             String releaseDate;
             double userRating;
@@ -121,6 +123,7 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
             id = movieInfo.getInt(ID);
             title = movieInfo.getString(TITLE);
             poster = movieInfo.getString(POSTER_PATH);
+            backdrop = movieInfo.getString(BACKDROP_PATH);
             plotSynopsis = movieInfo.getString(OVERVIEW);
             releaseDate = movieInfo.getString(RELEASE_DATE);
             userRating = movieInfo.getDouble(VOTE_AVERAGE);
@@ -130,6 +133,7 @@ public class FetchMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
             movie.setId(id);
             movie.setTitle(title);
             movie.setPoster(poster);
+            movie.setBackdrop(backdrop);
             movie.setPlotSynopsis(plotSynopsis);
             movie.setReleaseDate(releaseDate);
             movie.setUserRating(userRating);
