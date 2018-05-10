@@ -65,7 +65,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
         public void bind(final Trailer trailer, final OnItemClickListener listener) {
             trailer_thumbnail.setAdjustViewBounds(true);
-            Picasso.with(itemView.getContext())
+            Picasso.get()
                     .load(BASE_URL_YOUTUBE_THUMBNAIL + trailer.getKey() + "/0.jpg")
                     .into(trailer_thumbnail);
             itemView.setOnClickListener(new View.OnClickListener() {

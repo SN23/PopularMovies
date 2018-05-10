@@ -62,8 +62,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
 
         public void bind(final Movie movie, final OnItemClickListener listener) {
-            movie_poster.setAdjustViewBounds(true);
-            Picasso.with(itemView.getContext())
+            Picasso.get()
                     .load(BASE_URL + movie.getPoster())
                     .into(movie_poster);
             itemView.setOnClickListener(new View.OnClickListener() {
