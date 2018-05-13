@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final static String MENU_SELECTED = "selected";
+    private int selected = -1;
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
     private ArrayList<Movie> movies;
@@ -31,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            selected = savedInstanceState.getInt(MENU_SELECTED);
+        }
 
         final Context context = this;
         Utils utils = new Utils();
@@ -50,7 +56,27 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(movieAdapter);
 
-        apiCall(POPULAR);
+        if (selected == -1) {
+            apiCall(POPULAR);
+        }
+
+        if (selected != -1 && selected == R.id.popular) {
+            apiCall(POPULAR);
+        } else if (selected != -1 && selected == R.id.top_rated) {
+            apiCall(TOP_RATED);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt(MENU_SELECTED, selected);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        selected = savedInstanceState.getInt(MENU_SELECTED);
     }
 
     @Override
@@ -58,22 +84,36 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings, menu);
 
+        if (selected != -1) {
+            MenuItem menuItem = (MenuItem) menu.findItem(selected);
+            menuItem.setChecked(true);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
+        int id = item.getItemId();
+        switch (id) {
 
             case R.id.top_rated:
+                selected = id;
                 item.setChecked(true);
                 apiCall(TOP_RATED);
                 return true;
 
             case R.id.popular:
+                selected = id;
                 item.setChecked(true);
                 apiCall(POPULAR);
+                return true;
+
+            case R.id.favorites:
+                selected = id;
+                item.setChecked(true);
+                Intent intent = new Intent(this, Favorites.class);
+                startActivity(intent);
                 return true;
 
             default:
