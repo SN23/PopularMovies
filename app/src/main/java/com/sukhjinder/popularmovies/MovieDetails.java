@@ -35,6 +35,10 @@ import com.sukhjinder.popularmovies.model.Review;
 import com.sukhjinder.popularmovies.model.Trailer;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static android.support.v7.widget.RecyclerView.HORIZONTAL;
 import static android.support.v7.widget.RecyclerView.VERTICAL;
@@ -43,21 +47,17 @@ import static android.support.v7.widget.RecyclerView.VERTICAL;
 public class MovieDetails extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private Movie movie;
-    private String movieID;
     private static final String BASE_URL_POSTER = "http://image.tmdb.org/t/p/w342/";
     private static final String BASE_URL_BACKDROP = "http://image.tmdb.org/t/p/w1280/";
     private static String Base_URL_YOUTUBE = "https://www.youtube.com/watch?v=";
 
-    private RecyclerView trailerRecyclerView;
+    @BindView(R.id.trailer_recycler)
+    RecyclerView trailerRecyclerView;
     private TrailerAdapter trailerAdapter;
-    private ArrayList<Trailer> trailers;
 
-    private RecyclerView reviewRecyclerView;
+    @BindView(R.id.review_recycler)
+    RecyclerView reviewRecyclerView;
     private ReviewAdapter reviewAdapter;
-    private ArrayList<Review> reviews;
-
-    private FloatingActionButton favoriteBtn;
-    private boolean onlineStatus;
 
     MovieProvider movieProvider;
     private static final int CURSOR_LOADER_ID = 23;
@@ -67,16 +67,17 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_details);
+        ButterKnife.bind(this);
 
         movie = getIntent().getParcelableExtra("movieDetails");
-        movieID = String.valueOf(movie.getId());
+        String movieID = String.valueOf(movie.getId());
 
         getSupportLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
         movieProvider = new MovieProvider();
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(movie.getTitle());
@@ -87,16 +88,12 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         TextView movieYears = findViewById(R.id.movie_year);
         TextView movieRating = findViewById(R.id.movie_rating);
         TextView moviePlotSynopsis = findViewById(R.id.movie_plot_synopsis);
-        trailerRecyclerView = findViewById(R.id.trailer_recycler);
-        reviewRecyclerView = findViewById(R.id.review_recycler);
-        favoriteBtn = findViewById(R.id.favoriteBtn);
+        FloatingActionButton favoriteBtn = findViewById(R.id.favoriteBtn);
 
-        Utils utils = new Utils();
-        onlineStatus = utils.isOnline(context);
+        boolean onlineStatus = Utils.isOnline(context);
 
-
-        trailers = new ArrayList<>();
-        reviews = new ArrayList<>();
+        ArrayList<Trailer> trailers = new ArrayList<>();
+        ArrayList<Review> reviews = new ArrayList<>();
 
         trailerAdapter = new TrailerAdapter(trailers, new TrailerAdapter.OnItemClickListener() {
             @Override

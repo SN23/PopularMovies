@@ -14,17 +14,19 @@ import com.squareup.picasso.Picasso;
 import com.sukhjinder.popularmovies.data.MovieContract;
 import com.sukhjinder.popularmovies.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
 
     private Cursor mCursor;
-    private Context context;
     private static final String BASE_URL = "http://image.tmdb.org/t/p/w342";
 
 
     public FavoritesAdapter(Context context, Cursor mCursor) {
         this.mCursor = mCursor;
-        this.context = context;
+        Context context1 = context;
     }
 
     @NonNull
@@ -51,13 +53,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView fav_movie_poster;
-        private TextView fav_movie_title;
+        @BindView(R.id.favorite_movie_poster)
+        ImageView fav_movie_poster;
+        @BindView(R.id.favorite_movie_title)
+        TextView fav_movie_title;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            fav_movie_poster = itemView.findViewById(R.id.favorite_movie_poster);
-            fav_movie_title = itemView.findViewById(R.id.favorite_movie_title);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(final int position) {

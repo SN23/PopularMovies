@@ -13,11 +13,13 @@ import com.sukhjinder.popularmovies.model.Trailer;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
 
 
     private ArrayList<Trailer> trailers;
-    private static String BASE_URL_YOUTUBE_THUMBNAIL = "https://img.youtube.com/vi/";
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -55,15 +57,17 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView trailer_thumbnail;
+        @BindView(R.id.trailer_thumbnail)
+        ImageView trailer_thumbnail;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            trailer_thumbnail = itemView.findViewById(R.id.trailer_thumbnail);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(final Trailer trailer, final OnItemClickListener listener) {
             trailer_thumbnail.setAdjustViewBounds(true);
+            String BASE_URL_YOUTUBE_THUMBNAIL = "https://img.youtube.com/vi/";
             Picasso.get()
                     .load(BASE_URL_YOUTUBE_THUMBNAIL + trailer.getKey() + "/0.jpg")
                     .into(trailer_thumbnail);

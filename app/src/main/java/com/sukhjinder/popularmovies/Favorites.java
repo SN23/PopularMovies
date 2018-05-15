@@ -16,11 +16,15 @@ import android.support.v7.widget.RecyclerView;
 import com.sukhjinder.popularmovies.data.MovieContract;
 import com.sukhjinder.popularmovies.adapter.FavoritesAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.support.v7.widget.RecyclerView.VERTICAL;
 
 public class Favorites extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private RecyclerView recyclerView;
+    @BindView(R.id.favorites_recycler)
+    RecyclerView recyclerView;
     private FavoritesAdapter favAdapter;
     private Cursor mDetailCursor;
 
@@ -30,8 +34,8 @@ public class Favorites extends AppCompatActivity implements LoaderManager.Loader
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favorites);
+        ButterKnife.bind(this);
 
-        recyclerView = findViewById(R.id.favorites_recycler);
         favAdapter = new FavoritesAdapter(this, mDetailCursor);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(favAdapter);
@@ -41,6 +45,7 @@ public class Favorites extends AppCompatActivity implements LoaderManager.Loader
     }
 
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
         return new CursorLoader(this,

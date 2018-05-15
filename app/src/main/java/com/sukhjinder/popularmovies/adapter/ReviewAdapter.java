@@ -12,6 +12,9 @@ import com.sukhjinder.popularmovies.model.Review;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
     private ArrayList<Review> reviews;
@@ -46,13 +49,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView author;
-        private TextView content;
+        @BindView(R.id.author)
+        TextView author;
+        @BindView(R.id.content)
+        TextView content;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            author = itemView.findViewById(R.id.author);
-            content = itemView.findViewById(R.id.content);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(final Review review) {

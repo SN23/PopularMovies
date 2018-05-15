@@ -17,13 +17,17 @@ import com.sukhjinder.popularmovies.model.Movie;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
     private final static String MENU_SELECTED = "selected";
+    private final static String MOVIES = "movies";
     private int selected = -1;
-    private RecyclerView recyclerView;
+    @BindView(R.id.movies_recycler)
+    RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
-    private ArrayList<Movie> movies;
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
     private boolean onlineStatus;
@@ -33,18 +37,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
             selected = savedInstanceState.getInt(MENU_SELECTED);
         }
 
         final Context context = this;
-        Utils utils = new Utils();
 
-        onlineStatus = utils.isOnline(context);
-        movies = new ArrayList<>();
+        onlineStatus = Utils.isOnline(context);
+        ArrayList<Movie> movies = new ArrayList<>();
 
-        recyclerView = findViewById(R.id.movies_recycler);
         movieAdapter = new MovieAdapter(movies, new MovieAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(Movie movie) {
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 context.startActivity(movieDetailsIntent);
             }
         });
+
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(movieAdapter);
 
@@ -85,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.settings, menu);
 
         if (selected != -1) {
-            MenuItem menuItem = (MenuItem) menu.findItem(selected);
+            MenuItem menuItem = menu.findItem(selected);
             menuItem.setChecked(true);
         }
 
@@ -122,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void apiCall(String movieSortType) {
+        onlineStatus = Utils.isOnline(this);
         if (onlineStatus) {
             movieAdapter.clearAll();
             new FetchMovies(movieAdapter).execute(movieSortType);
