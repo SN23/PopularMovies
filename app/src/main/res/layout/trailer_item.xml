@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/trailer_thumbnail"
+        android:layout_width="@dimen/trailerThumbnailWidth"
+        android:layout_height="@dimen/trailerThumbnailHeight"
+        android:layout_marginBottom="@dimen/trailerThumbnailMarginBottom"
+        android:layout_marginEnd="@dimen/trailerThumbnailMarginEnd"
+        android:layout_marginStart="@dimen/trailerThumbnailMarginStart"
+        android:layout_marginTop="@dimen/trailerThumbnailMarginTop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/trailer_thumbnail_content_description" />
+
+</android.support.constraint.ConstraintLayout>

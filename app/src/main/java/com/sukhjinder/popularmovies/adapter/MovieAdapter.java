@@ -13,6 +13,9 @@ import com.sukhjinder.popularmovies.model.Movie;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     private ArrayList<Movie> movies;
@@ -37,7 +40,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-
         holder.bind(movies.get(position), listener);
     }
 
@@ -55,16 +57,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView movie_poster;
+        @BindView(R.id.movie_poster)
+        ImageView movie_poster;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            movie_poster = itemView.findViewById(R.id.movie_poster);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(final Movie movie, final OnItemClickListener listener) {
-            movie_poster.setAdjustViewBounds(true);
-            Picasso.with(itemView.getContext())
+            Picasso.get()
                     .load(BASE_URL + movie.getPoster())
                     .into(movie_poster);
             itemView.setOnClickListener(new View.OnClickListener() {

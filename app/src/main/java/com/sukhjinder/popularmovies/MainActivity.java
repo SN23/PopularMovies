@@ -2,8 +2,6 @@ package com.sukhjinder.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,26 +16,38 @@ import com.sukhjinder.popularmovies.api.FetchMovies;
 import com.sukhjinder.popularmovies.model.Movie;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private final static String MENU_SELECTED = "selected";
+    private final static String MOVIES = "movies";
+    private int selected = -1;
+    @BindView(R.id.movies_recycler)
+    RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
-    private ArrayList<Movie> movies;
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
+    private boolean onlineStatus;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        movies = new ArrayList<>();
-        final Context context = getApplicationContext();
+        if (savedInstanceState != null) {
+            selected = savedInstanceState.getInt(MENU_SELECTED);
+        }
 
-        recyclerView = findViewById(R.id.movies_recycler);
+        final Context context = this;
+
+        onlineStatus = Utils.isOnline(context);
+        ArrayList<Movie> movies = new ArrayList<>();
+
         movieAdapter = new MovieAdapter(movies, new MovieAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(Movie movie) {
@@ -46,10 +56,31 @@ public class MainActivity extends AppCompatActivity {
                 context.startActivity(movieDetailsIntent);
             }
         });
+
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(movieAdapter);
 
-        apiCall(POPULAR);
+        if (selected == -1) {
+            apiCall(POPULAR);
+        }
+
+        if (selected != -1 && selected == R.id.popular) {
+            apiCall(POPULAR);
+        } else if (selected != -1 && selected == R.id.top_rated) {
+            apiCall(TOP_RATED);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt(MENU_SELECTED, selected);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        selected = savedInstanceState.getInt(MENU_SELECTED);
     }
 
     @Override
@@ -57,22 +88,36 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings, menu);
 
+        if (selected != -1) {
+            MenuItem menuItem = menu.findItem(selected);
+            menuItem.setChecked(true);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
+        int id = item.getItemId();
+        switch (id) {
 
             case R.id.top_rated:
+                selected = id;
                 item.setChecked(true);
                 apiCall(TOP_RATED);
                 return true;
 
             case R.id.popular:
+                selected = id;
                 item.setChecked(true);
                 apiCall(POPULAR);
+                return true;
+
+            case R.id.favorites:
+                selected = id;
+                item.setChecked(true);
+                Intent intent = new Intent(this, Favorites.class);
+                startActivity(intent);
                 return true;
 
             default:
@@ -81,21 +126,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void apiCall(String movieSortType) {
-        boolean onlineStatus = isOnline();
+        onlineStatus = Utils.isOnline(this);
         if (onlineStatus) {
             movieAdapter.clearAll();
             new FetchMovies(movieAdapter).execute(movieSortType);
         } else if (!onlineStatus) {
             Toast.makeText(MainActivity.this, "No Internet Connectivity", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    // Network Connectivity Code from Stackoverflow
-// https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
-    private boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = Objects.requireNonNull(connectivityManager).getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
 }

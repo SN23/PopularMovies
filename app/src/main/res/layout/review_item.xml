@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/reviewAuthorMarginEnd"
+        android:layout_marginStart="@dimen/reviewAuthorMarginStart"
+        android:layout_marginTop="@dimen/reviewAuthorMarginTop"
+        android:textSize="@dimen/reviewAuthorTextSize"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Screen-Space" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/reviewContentMarginBottom"
+        android:layout_marginEnd="@dimen/reviewContentMarginEnd"
+        android:layout_marginStart="@dimen/reviewContentMarginStart"
+        android:layout_marginTop="@dimen/reviewContentMarginTop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/author"
+        tools:text="It is a bold undertaking, to readjust what is expected of the MCU/Avengers formula, and there are moments when the sheer scale and momentum match the narrative ambition...\\r\n\r\n Read the full review here: http://screen-space.squarespace.com/reviews/2018/4/25/avengers-infinity-war.html" />
+
+
+</android.support.constraint.ConstraintLayout>
