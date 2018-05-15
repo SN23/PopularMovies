@@ -24,13 +24,12 @@
         <activity
             android:name=".MovieDetails"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/MovieDetailsTheme">>
-        </activity>
+            android:theme="@style/MovieDetailsTheme" />
 
         <activity
             android:name=".Favorites"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
         <provider
             android:name=".data.MovieProvider"
