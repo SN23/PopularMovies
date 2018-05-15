@@ -6,20 +6,16 @@
 
     <ImageView
         android:id="@+id/trailer_thumbnail"
-        android:layout_width="200dp"
-        android:layout_height="175dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/trailerThumbnailWidth"
+        android:layout_height="@dimen/trailerThumbnailHeight"
+        android:layout_marginBottom="@dimen/trailerThumbnailMarginBottom"
+        android:layout_marginEnd="@dimen/trailerThumbnailMarginEnd"
+        android:layout_marginStart="@dimen/trailerThumbnailMarginStart"
+        android:layout_marginTop="@dimen/trailerThumbnailMarginTop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/trailer_thumbnail_content_description" />
 
 </android.support.constraint.ConstraintLayout>
