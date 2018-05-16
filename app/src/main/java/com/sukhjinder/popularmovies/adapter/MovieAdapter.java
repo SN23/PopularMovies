@@ -56,6 +56,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         movies.add(movie);
     }
 
+    public ArrayList<Movie> getMovies() {
+        return movies;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.movie_poster)
         ImageView movie_poster;
