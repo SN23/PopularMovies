@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,14 +24,16 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     private final static String MENU_SELECTED = "selected";
-    private final static String MOVIES = "movies";
     private int selected = -1;
     @BindView(R.id.movies_recycler)
     RecyclerView recyclerView;
+    GridLayoutManager gridLayoutManager;
     private MovieAdapter movieAdapter;
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
     private boolean onlineStatus;
+    private final static String MOVIES = "movies";
+    private ArrayList<Movie> movieList = new ArrayList<>();
 
 
     @Override
@@ -39,16 +42,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (savedInstanceState != null) {
-            selected = savedInstanceState.getInt(MENU_SELECTED);
-        }
-
         final Context context = this;
 
-        onlineStatus = Utils.isOnline(context);
-        ArrayList<Movie> movies = new ArrayList<>();
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(MENU_SELECTED)) {
+                selected = savedInstanceState.getInt(MENU_SELECTED);
+            }
+            if (savedInstanceState.containsKey(MOVIES)) {
+                movieList = savedInstanceState.getParcelableArrayList(MOVIES);
+            }
+        }
 
-        movieAdapter = new MovieAdapter(movies, new MovieAdapter.OnItemClickListener() {
+        onlineStatus = Utils.isOnline(context);
+        movieAdapter = new MovieAdapter(movieList, new MovieAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(Movie movie) {
                 Intent movieDetailsIntent = new Intent(context, MovieDetails.class);
@@ -57,30 +63,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        gridLayoutManager = new GridLayoutManager(this, numberOfColumns());
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(movieAdapter);
+        recyclerView.getLayoutManager().onSaveInstanceState();
+        recyclerView.getLayoutManager().onRestoreInstanceState(savedInstanceState);
+
 
         if (selected == -1) {
-            apiCall(POPULAR);
-        }
+            if (movieList.size() > 0) {
+                movieList = movieAdapter.getMovies();
+            } else {
+                apiCall(POPULAR);
+            }
 
-        if (selected != -1 && selected == R.id.popular) {
-            apiCall(POPULAR);
-        } else if (selected != -1 && selected == R.id.top_rated) {
-            apiCall(TOP_RATED);
+        } else if (selected == R.id.popular) {
+            if (movieList.size() > 0) {
+                movieList = movieAdapter.getMovies();
+            } else {
+                apiCall(POPULAR);
+            }
+        } else if (selected == R.id.top_rated) {
+            if (movieList.size() > 0) {
+                movieList = movieAdapter.getMovies();
+            } else {
+                apiCall(TOP_RATED);
+            }
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt(MENU_SELECTED, selected);
         super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(MENU_SELECTED, selected);
+        savedInstanceState.putParcelableArrayList(MOVIES, movieList);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         selected = savedInstanceState.getInt(MENU_SELECTED);
+        movieList = savedInstanceState.getParcelableArrayList(MOVIES);
     }
 
     @Override
@@ -114,8 +137,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.favorites:
-                selected = id;
-                item.setChecked(true);
                 Intent intent = new Intent(this, Favorites.class);
                 startActivity(intent);
                 return true;
@@ -133,6 +154,16 @@ public class MainActivity extends AppCompatActivity {
         } else if (!onlineStatus) {
             Toast.makeText(MainActivity.this, "No Internet Connectivity", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int widthDivider = 600;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2;
+        return nColumns;
     }
 
 }
