@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             movieAdapter.clearAll();
             new FetchMovies(movieAdapter).execute(movieSortType);
         } else if (!onlineStatus) {
-            Toast.makeText(MainActivity.this, "No Internet Connectivity", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, R.string.no_internet, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -116,7 +116,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             trailerApiCall(movieID);
             reviewApiCall(movieID);
         } else {
-            Toast.makeText(MovieDetails.this, "No Internet Connectivity", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MovieDetails.this, R.string.no_internet, Toast.LENGTH_SHORT).show();
         }
 
 
