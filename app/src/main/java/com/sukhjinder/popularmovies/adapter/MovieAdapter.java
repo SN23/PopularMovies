@@ -56,8 +56,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         movies.add(movie);
     }
 
-    public void addAllMovies(ArrayList<Movie> movies) {
-        movies.addAll(movies);
+    public void addAllMovies(ArrayList<Movie> movieList) {
+        movies.addAll(movieList);
     }
 
     public ArrayList<Movie> getMovies() {
