@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +34,6 @@ import com.sukhjinder.popularmovies.model.Review;
 import com.sukhjinder.popularmovies.model.Trailer;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +47,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     private Movie movie;
     private static final String BASE_URL_POSTER = "http://image.tmdb.org/t/p/w342/";
     private static final String BASE_URL_BACKDROP = "http://image.tmdb.org/t/p/w1280/";
-    private static String Base_URL_YOUTUBE = "https://www.youtube.com/watch?v=";
+    private static final String Base_URL_YOUTUBE = "https://www.youtube.com/watch?v=";
 
     @BindView(R.id.trailer_recycler)
     RecyclerView trailerRecyclerView;
@@ -59,7 +57,6 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView reviewRecyclerView;
     private ReviewAdapter reviewAdapter;
 
-    MovieProvider movieProvider;
     private static final int CURSOR_LOADER_ID = 23;
 
     private static final String MOVIE_ITEM = "movie_item";
@@ -78,8 +75,6 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         String movieID = String.valueOf(movie.getId());
 
         getSupportLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
-
-        movieProvider = new MovieProvider();
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(movie.getTitle());
