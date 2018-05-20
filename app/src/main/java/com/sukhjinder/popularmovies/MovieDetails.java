@@ -62,6 +62,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     MovieProvider movieProvider;
     private static final int CURSOR_LOADER_ID = 23;
 
+    private static final String MOVIE_ITEM = "movie_item";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,15 +70,16 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.movie_details);
         ButterKnife.bind(this);
 
-        movie = getIntent().getParcelableExtra("movieDetails");
+        if (savedInstanceState != null) {
+            movie = savedInstanceState.getParcelable(MOVIE_ITEM);
+        } else {
+            movie = getIntent().getParcelableExtra("movieDetails");
+        }
         String movieID = String.valueOf(movie.getId());
 
         getSupportLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
         movieProvider = new MovieProvider();
-        final Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(movie.getTitle());
@@ -184,5 +186,17 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MOVIE_ITEM, movie);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        movie = savedInstanceState.getParcelable(MOVIE_ITEM);
     }
 }
