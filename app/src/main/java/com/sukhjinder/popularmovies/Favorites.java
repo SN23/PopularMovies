@@ -45,7 +45,7 @@ public class Favorites extends AppCompatActivity implements LoaderManager.Loader
             listState = savedInstanceState.getParcelable(LIST_STATE);
         }
 
-        favAdapter = new FavoritesAdapter(this, mDetailCursor);
+        favAdapter = new FavoritesAdapter(mDetailCursor);
         linearLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(linearLayoutManager);
