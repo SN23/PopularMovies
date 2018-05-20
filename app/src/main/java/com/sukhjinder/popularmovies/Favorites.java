@@ -1,6 +1,7 @@
 package com.sukhjinder.popularmovies;
 
 import android.database.DatabaseUtils;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -30,18 +31,30 @@ public class Favorites extends AppCompatActivity implements LoaderManager.Loader
 
     private static final int ID_MOVIES_LOADER = 23;
 
+    private Parcelable listState;
+    private static final String LIST_STATE = "list_state";
+    private LinearLayoutManager linearLayoutManager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favorites);
         ButterKnife.bind(this);
 
-        favAdapter = new FavoritesAdapter(this, mDetailCursor);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE);
+        }
+
+        favAdapter = new FavoritesAdapter(mDetailCursor);
+        linearLayoutManager = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(favAdapter);
         DividerItemDecoration favItemDecor = new DividerItemDecoration(this, VERTICAL);
         recyclerView.addItemDecoration(favItemDecor);
         getSupportLoaderManager().initLoader(ID_MOVIES_LOADER, null, this);
+
+        linearLayoutManager.onRestoreInstanceState(listState);
     }
 
 
@@ -53,7 +66,7 @@ public class Favorites extends AppCompatActivity implements LoaderManager.Loader
                 null,
                 null,
                 null,
-                null);
+                MovieContract.MovieEntry.COLUMN_TITLE);
     }
 
     @Override
@@ -67,5 +80,11 @@ public class Favorites extends AppCompatActivity implements LoaderManager.Loader
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mDetailCursor = null;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(LIST_STATE, linearLayoutManager.onSaveInstanceState());
     }
 }

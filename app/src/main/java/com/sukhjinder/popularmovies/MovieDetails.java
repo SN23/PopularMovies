@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +34,6 @@ import com.sukhjinder.popularmovies.model.Review;
 import com.sukhjinder.popularmovies.model.Trailer;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +47,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     private Movie movie;
     private static final String BASE_URL_POSTER = "http://image.tmdb.org/t/p/w342/";
     private static final String BASE_URL_BACKDROP = "http://image.tmdb.org/t/p/w1280/";
-    private static String Base_URL_YOUTUBE = "https://www.youtube.com/watch?v=";
+    private static final String Base_URL_YOUTUBE = "https://www.youtube.com/watch?v=";
 
     @BindView(R.id.trailer_recycler)
     RecyclerView trailerRecyclerView;
@@ -59,9 +57,9 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView reviewRecyclerView;
     private ReviewAdapter reviewAdapter;
 
-    MovieProvider movieProvider;
     private static final int CURSOR_LOADER_ID = 23;
 
+    private static final String MOVIE_ITEM = "movie_item";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,15 +67,14 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.movie_details);
         ButterKnife.bind(this);
 
-        movie = getIntent().getParcelableExtra("movieDetails");
+        if (savedInstanceState != null) {
+            movie = savedInstanceState.getParcelable(MOVIE_ITEM);
+        } else {
+            movie = getIntent().getParcelableExtra("movieDetails");
+        }
         String movieID = String.valueOf(movie.getId());
 
         getSupportLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
-
-        movieProvider = new MovieProvider();
-        final Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(movie.getTitle());
@@ -116,7 +113,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             trailerApiCall(movieID);
             reviewApiCall(movieID);
         } else {
-            Toast.makeText(MovieDetails.this, "No Internet Connectivity", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MovieDetails.this, R.string.no_internet, Toast.LENGTH_SHORT).show();
         }
 
 
@@ -184,5 +181,17 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MOVIE_ITEM, movie);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        movie = savedInstanceState.getParcelable(MOVIE_ITEM);
     }
 }

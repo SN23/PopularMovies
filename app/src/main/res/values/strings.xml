@@ -12,4 +12,6 @@
     <string name="trailer_thumbnail_content_description">Trailer Thumbnail</string>
     <string name="movie_poster_content_description">Movie Poster</string>
     <string name="favorite_movie_poster_content_description">Favorite Movie Poster</string>
+
+    <string name="no_internet">No Internet Connectivity</string>
 </resources>
