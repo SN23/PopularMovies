@@ -24,9 +24,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     private static final String BASE_URL = "http://image.tmdb.org/t/p/w342";
 
 
-    public FavoritesAdapter(Context context, Cursor mCursor) {
+    public FavoritesAdapter(Cursor mCursor) {
         this.mCursor = mCursor;
-        Context context1 = context;
     }
 
     @NonNull
