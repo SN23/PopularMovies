@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.sukhjinder.popularmovies.data.MovieContract;
-import com.sukhjinder.popularmovies.data.MovieProvider;
 import com.sukhjinder.popularmovies.adapter.ReviewAdapter;
 import com.sukhjinder.popularmovies.adapter.TrailerAdapter;
 import com.sukhjinder.popularmovies.api.FetchReviews;
@@ -57,8 +56,22 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView reviewRecyclerView;
     private ReviewAdapter reviewAdapter;
 
-    private static final int CURSOR_LOADER_ID = 23;
+    @BindView(R.id.movie_poster)
+    ImageView moviePoster;
+    @BindView(R.id.backdrop)
+    ImageView movieBackdrop;
+    @BindView(R.id.movie_year)
+    TextView movieYears;
+    @BindView(R.id.movie_rating)
+    TextView movieRating;
+    @BindView(R.id.movie_plot_synopsis)
+    TextView moviePlotSynopsis;
+    @BindView(R.id.favoriteBtn)
+    FloatingActionButton favoriteBtn;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
+    private static final int CURSOR_LOADER_ID = 23;
     private static final String MOVIE_ITEM = "movie_item";
 
     @Override
@@ -72,21 +85,12 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         } else {
             movie = getIntent().getParcelableExtra("movieDetails");
         }
+
         String movieID = String.valueOf(movie.getId());
-
         getSupportLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
-
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(movie.getTitle());
 
         final Context context = this;
-        ImageView moviePoster = findViewById(R.id.movie_details_poster);
-        ImageView movieBackdrop = findViewById(R.id.backdrop);
-        TextView movieYears = findViewById(R.id.movie_year);
-        TextView movieRating = findViewById(R.id.movie_rating);
-        TextView moviePlotSynopsis = findViewById(R.id.movie_plot_synopsis);
-        FloatingActionButton favoriteBtn = findViewById(R.id.favoriteBtn);
-
         boolean onlineStatus = Utils.isOnline(context);
 
         ArrayList<Trailer> trailers = new ArrayList<>();
@@ -115,7 +119,6 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         } else {
             Toast.makeText(MovieDetails.this, R.string.no_internet, Toast.LENGTH_SHORT).show();
         }
-
 
         Picasso.get()
                 .load(BASE_URL_POSTER + movie.getPoster())
@@ -176,6 +179,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+
     }
 
     @Override
