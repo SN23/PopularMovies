@@ -56,7 +56,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView reviewRecyclerView;
     private ReviewAdapter reviewAdapter;
 
-    @BindView(R.id.movie_poster)
+    @BindView(R.id.movie_details_poster)
     ImageView moviePoster;
     @BindView(R.id.backdrop)
     ImageView movieBackdrop;
