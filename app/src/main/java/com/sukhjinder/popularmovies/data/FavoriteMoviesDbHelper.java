@@ -15,11 +15,19 @@ public class FavoriteMoviesDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String SQL_CREATE_FAV_MOVIES_TABLE = "CREATE TABLE " +
-                MovieContract.MovieEntry.TABLE_NAME + " (" +
-                MovieContract.MovieEntry.COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                MovieContract.MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
-                MovieContract.MovieEntry.COLUMN_POSTER + " TEXT NOT NULL);";
+        StringBuilder stringBuilder = new StringBuilder();
+
+        final String SQL_CREATE_FAV_MOVIES_TABLE =
+                stringBuilder
+                        .append("CREATE TABLE ")
+                        .append(MovieContract.MovieEntry.TABLE_NAME)
+                        .append(" (")
+                        .append(MovieContract.MovieEntry.COLUMN_ID)
+                        .append(" INTEGER PRIMARY KEY, ")
+                        .append(MovieContract.MovieEntry.COLUMN_TITLE)
+                        .append(" TEXT NOT NULL, ")
+                        .append(MovieContract.MovieEntry.COLUMN_POSTER)
+                        .append(" TEXT NOT NULL);").toString();
 
         sqLiteDatabase.execSQL(SQL_CREATE_FAV_MOVIES_TABLE);
     }
